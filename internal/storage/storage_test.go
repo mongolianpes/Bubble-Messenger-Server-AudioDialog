@@ -47,6 +47,39 @@ func TestCreateDialog(t *testing.T) {
 	})
 }
 
+func TestDeleteDialog(t *testing.T) {
+	t.Run("success", func(t *testing.T) {
+		s := NewStorage()
+		dialogID, _, _ := s.CreateDialog()
+
+		s.DeleteDialog(dialogID)
+
+		s.Mu.RLock()
+		_, ok := s.Dialogs[dialogID]
+		s.Mu.RUnlock()
+		assert.False(t, ok)
+	})
+
+	t.Run("idempotent — not existing", func(t *testing.T) {
+		s := NewStorage()
+		// не должно паниковать
+		s.DeleteDialog("missing-id")
+		assert.Empty(t, s.Dialogs)
+	})
+
+	t.Run("exchange after delete returns not found", func(t *testing.T) {
+		s := NewStorage()
+		dialogID, senderID, _ := s.CreateDialog()
+
+		s.DeleteDialog(dialogID)
+
+		got, err := s.ExchangeAudio(dialogID, senderID, []byte("x"))
+		require.Error(t, err)
+		assert.Nil(t, got)
+		assert.EqualError(t, err, "dialog not found")
+	})
+}
+
 func TestExchangeAudio(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		s := NewStorage()

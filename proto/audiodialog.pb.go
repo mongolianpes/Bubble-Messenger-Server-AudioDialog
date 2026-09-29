@@ -117,6 +117,86 @@ func (x *CreateAudioDialogResponse) GetReceiverId() string {
 	return ""
 }
 
+type DeleteAudioDialogRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DialogId      string                 `protobuf:"bytes,1,opt,name=dialog_id,json=dialogId,proto3" json:"dialog_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAudioDialogRequest) Reset() {
+	*x = DeleteAudioDialogRequest{}
+	mi := &file_audiodialog_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAudioDialogRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAudioDialogRequest) ProtoMessage() {}
+
+func (x *DeleteAudioDialogRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_audiodialog_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAudioDialogRequest.ProtoReflect.Descriptor instead.
+func (*DeleteAudioDialogRequest) Descriptor() ([]byte, []int) {
+	return file_audiodialog_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *DeleteAudioDialogRequest) GetDialogId() string {
+	if x != nil {
+		return x.DialogId
+	}
+	return ""
+}
+
+type DeleteAudioDialogResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAudioDialogResponse) Reset() {
+	*x = DeleteAudioDialogResponse{}
+	mi := &file_audiodialog_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAudioDialogResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAudioDialogResponse) ProtoMessage() {}
+
+func (x *DeleteAudioDialogResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_audiodialog_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAudioDialogResponse.ProtoReflect.Descriptor instead.
+func (*DeleteAudioDialogResponse) Descriptor() ([]byte, []int) {
+	return file_audiodialog_proto_rawDescGZIP(), []int{3}
+}
+
 var File_audiodialog_proto protoreflect.FileDescriptor
 
 const file_audiodialog_proto_rawDesc = "" +
@@ -127,9 +207,13 @@ const file_audiodialog_proto_rawDesc = "" +
 	"\tdialog_id\x18\x01 \x01(\tR\bdialogId\x12\x1b\n" +
 	"\tsender_id\x18\x02 \x01(\tR\bsenderId\x12\x1f\n" +
 	"\vreceiver_id\x18\x03 \x01(\tR\n" +
-	"receiverId2z\n" +
+	"receiverId\"7\n" +
+	"\x18DeleteAudioDialogRequest\x12\x1b\n" +
+	"\tdialog_id\x18\x01 \x01(\tR\bdialogId\"\x1b\n" +
+	"\x19DeleteAudioDialogResponse2\xe0\x01\n" +
 	"\x12AudioDialogService\x12d\n" +
-	"\x11CreateAudioDialog\x12%.audiodialog.CreateAudioDialogRequest\x1a&.audiodialog.CreateAudioDialogResponse\"\x00B\x03Z\x01.b\x06proto3"
+	"\x11CreateAudioDialog\x12%.audiodialog.CreateAudioDialogRequest\x1a&.audiodialog.CreateAudioDialogResponse\"\x00\x12d\n" +
+	"\x11DeleteAudioDialog\x12%.audiodialog.DeleteAudioDialogRequest\x1a&.audiodialog.DeleteAudioDialogResponse\"\x00B\x03Z\x01.b\x06proto3"
 
 var (
 	file_audiodialog_proto_rawDescOnce sync.Once
@@ -143,16 +227,20 @@ func file_audiodialog_proto_rawDescGZIP() []byte {
 	return file_audiodialog_proto_rawDescData
 }
 
-var file_audiodialog_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_audiodialog_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_audiodialog_proto_goTypes = []any{
 	(*CreateAudioDialogRequest)(nil),  // 0: audiodialog.CreateAudioDialogRequest
 	(*CreateAudioDialogResponse)(nil), // 1: audiodialog.CreateAudioDialogResponse
+	(*DeleteAudioDialogRequest)(nil),  // 2: audiodialog.DeleteAudioDialogRequest
+	(*DeleteAudioDialogResponse)(nil), // 3: audiodialog.DeleteAudioDialogResponse
 }
 var file_audiodialog_proto_depIdxs = []int32{
 	0, // 0: audiodialog.AudioDialogService.CreateAudioDialog:input_type -> audiodialog.CreateAudioDialogRequest
-	1, // 1: audiodialog.AudioDialogService.CreateAudioDialog:output_type -> audiodialog.CreateAudioDialogResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: audiodialog.AudioDialogService.DeleteAudioDialog:input_type -> audiodialog.DeleteAudioDialogRequest
+	1, // 2: audiodialog.AudioDialogService.CreateAudioDialog:output_type -> audiodialog.CreateAudioDialogResponse
+	3, // 3: audiodialog.AudioDialogService.DeleteAudioDialog:output_type -> audiodialog.DeleteAudioDialogResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -169,7 +257,7 @@ func file_audiodialog_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_audiodialog_proto_rawDesc), len(file_audiodialog_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

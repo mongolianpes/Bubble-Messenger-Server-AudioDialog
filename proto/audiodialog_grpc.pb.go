@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	AudioDialogService_CreateAudioDialog_FullMethodName = "/audiodialog.AudioDialogService/CreateAudioDialog"
+	AudioDialogService_DeleteAudioDialog_FullMethodName = "/audiodialog.AudioDialogService/DeleteAudioDialog"
 )
 
 // AudioDialogServiceClient is the client API for AudioDialogService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AudioDialogServiceClient interface {
 	CreateAudioDialog(ctx context.Context, in *CreateAudioDialogRequest, opts ...grpc.CallOption) (*CreateAudioDialogResponse, error)
+	DeleteAudioDialog(ctx context.Context, in *DeleteAudioDialogRequest, opts ...grpc.CallOption) (*DeleteAudioDialogResponse, error)
 }
 
 type audioDialogServiceClient struct {
@@ -47,11 +49,22 @@ func (c *audioDialogServiceClient) CreateAudioDialog(ctx context.Context, in *Cr
 	return out, nil
 }
 
+func (c *audioDialogServiceClient) DeleteAudioDialog(ctx context.Context, in *DeleteAudioDialogRequest, opts ...grpc.CallOption) (*DeleteAudioDialogResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteAudioDialogResponse)
+	err := c.cc.Invoke(ctx, AudioDialogService_DeleteAudioDialog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AudioDialogServiceServer is the server API for AudioDialogService service.
 // All implementations must embed UnimplementedAudioDialogServiceServer
 // for forward compatibility.
 type AudioDialogServiceServer interface {
 	CreateAudioDialog(context.Context, *CreateAudioDialogRequest) (*CreateAudioDialogResponse, error)
+	DeleteAudioDialog(context.Context, *DeleteAudioDialogRequest) (*DeleteAudioDialogResponse, error)
 	mustEmbedUnimplementedAudioDialogServiceServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedAudioDialogServiceServer struct{}
 
 func (UnimplementedAudioDialogServiceServer) CreateAudioDialog(context.Context, *CreateAudioDialogRequest) (*CreateAudioDialogResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateAudioDialog not implemented")
+}
+func (UnimplementedAudioDialogServiceServer) DeleteAudioDialog(context.Context, *DeleteAudioDialogRequest) (*DeleteAudioDialogResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteAudioDialog not implemented")
 }
 func (UnimplementedAudioDialogServiceServer) mustEmbedUnimplementedAudioDialogServiceServer() {}
 func (UnimplementedAudioDialogServiceServer) testEmbeddedByValue()                            {}
@@ -104,6 +120,24 @@ func _AudioDialogService_CreateAudioDialog_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AudioDialogService_DeleteAudioDialog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAudioDialogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AudioDialogServiceServer).DeleteAudioDialog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AudioDialogService_DeleteAudioDialog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AudioDialogServiceServer).DeleteAudioDialog(ctx, req.(*DeleteAudioDialogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AudioDialogService_ServiceDesc is the grpc.ServiceDesc for AudioDialogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var AudioDialogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAudioDialog",
 			Handler:    _AudioDialogService_CreateAudioDialog_Handler,
+		},
+		{
+			MethodName: "DeleteAudioDialog",
+			Handler:    _AudioDialogService_DeleteAudioDialog_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

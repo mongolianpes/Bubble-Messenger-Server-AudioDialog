@@ -26,8 +26,9 @@ type Dialog struct {
 	Mu           sync.RWMutex
 }
 
-type Creator interface {
+type MakeDialog interface {
 	CreateDialog() (dialogID, senderID, receiverID string)
+	DeleteDialog(dialogID string)
 }
 
 type ExchangeAudio interface {
@@ -78,6 +79,12 @@ func (s *Storage) CreateDialog() (dialogID, senderID, receiverID string) {
 	s.Mu.Unlock()
 
 	return
+}
+
+func (s *Storage) DeleteDialog(dialogID string) {
+	s.Mu.Lock()
+	defer s.Mu.Unlock()
+	delete(s.Dialogs, dialogID)
 }
 
 func (s *Storage) ExchangeAudio(idDialog, userID string, message []byte) (map[string][]MessageAudioDialog, error) {

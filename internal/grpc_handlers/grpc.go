@@ -7,18 +7,18 @@ import (
 	pb "AudioDialog/proto"
 )
 
-type GRPCCreatorService struct {
+type GRPCMakeDialogService struct {
 	pb.UnimplementedAudioDialogServiceServer
-	storage storage.Creator
+	storage storage.MakeDialog
 }
 
-func NewGRPCHandler(storage storage.Creator) *GRPCCreatorService {
-	return &GRPCCreatorService{
+func NewGRPCHandler(storage storage.MakeDialog) *GRPCMakeDialogService {
+	return &GRPCMakeDialogService{
 		storage: storage,
 	}
 }
 
-func (s *GRPCCreatorService) CreateAudioDialog(ctx context.Context, req *pb.CreateAudioDialogRequest) (*pb.CreateAudioDialogResponse, error) {
+func (s *GRPCMakeDialogService) CreateAudioDialog(ctx context.Context, req *pb.CreateAudioDialogRequest) (*pb.CreateAudioDialogResponse, error) {
 	dialogID, senderID, receiverID := s.storage.CreateDialog()
 
 	res := &pb.CreateAudioDialogResponse{
@@ -27,4 +27,9 @@ func (s *GRPCCreatorService) CreateAudioDialog(ctx context.Context, req *pb.Crea
 		ReceiverId: receiverID,
 	}
 	return res, nil
+}
+
+func (s *GRPCMakeDialogService) DeleteAudioDialog(ctx context.Context, req *pb.DeleteAudioDialogRequest) (*pb.DeleteAudioDialogResponse, error) {
+	s.storage.DeleteDialog(req.DialogId)
+	return &pb.DeleteAudioDialogResponse{}, nil
 }
