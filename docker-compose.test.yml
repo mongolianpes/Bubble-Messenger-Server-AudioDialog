@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  userstest:
+      build: .
+      container_name: audiodialogtest
+      restart: unless-stopped
+      ports:
+        - "8086:8086"
