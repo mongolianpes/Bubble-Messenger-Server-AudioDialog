@@ -11,7 +11,7 @@ import (
 )
 
 type AudioDialogService struct {
-	Creator       *grpc.Server
+	MakeDialog    *grpc.Server
 	ExchangeAudio httpHandlers.ExchangeAudioService
 	Cleanup       storage.CleanupDialogs
 }
@@ -24,7 +24,7 @@ func NewAudioDialogService() *AudioDialogService {
 	pb.RegisterAudioDialogServiceServer(grpcServer, grpcHandlers.NewGRPCHandler(storage))
 
 	return &AudioDialogService{
-		Creator:       grpcServer,
+		MakeDialog:    grpcServer,
 		ExchangeAudio: exchangeAudio,
 		Cleanup:       storage,
 	}

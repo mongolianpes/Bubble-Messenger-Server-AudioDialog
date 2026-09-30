@@ -2,6 +2,7 @@ package audiodialog
 
 import (
 	"AudioDialog/internal/service"
+	"log/slog"
 	"net"
 )
 
@@ -10,7 +11,7 @@ func main() {
 
 	go func() {
 		if err := service.ExchangeAudio.StartHTTPExchangeAudioService(); err != nil {
-			panic(err)
+			slog.Error("Error start HTTP exchanger service", "error", err)
 		}
 	}()
 
@@ -19,10 +20,11 @@ func main() {
 	go func() {
 		lis, err := net.Listen("tcp", ":8086")
 		if err != nil {
-			panic(err)
+			slog.Error("Error setup net listener for gRPC service", "error", err)
+			return
 		}
-		if err := service.Creator.Serve(lis); err != nil {
-			panic(err)
+		if err := service.MakeDialog.Serve(lis); err != nil {
+			slog.Error("Error serve gRPC service", "error", err)
 		}
 	}()
 }

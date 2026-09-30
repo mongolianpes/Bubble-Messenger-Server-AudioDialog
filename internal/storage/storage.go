@@ -3,6 +3,7 @@ package storage
 import (
 	"crypto/rand"
 	"errors"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -12,7 +13,7 @@ import (
 const (
 	timeToSendMessage          = int64(time.Second)
 	timeMaxInactive            = int64(15 * time.Second)
-	timeSleepCheckLastUsedTime = time.Second * 20
+	timeSleepCheckLastUsedTime = time.Hour
 )
 
 type Storage struct {
@@ -137,6 +138,7 @@ func (s *Storage) ExchangeAudio(idDialog, userID string, message []byte) (map[st
 
 func (s *Storage) CheckLastUsedTimeInAudioDialog() {
 	for {
+		deletedDialogs := []string{}
 		now := time.Now().UnixNano()
 		var toDelete []string
 
@@ -163,9 +165,14 @@ func (s *Storage) CheckLastUsedTimeInAudioDialog() {
 				d.Mu.RUnlock()
 				if inactive {
 					delete(s.Dialogs, id)
+					deletedDialogs = append(deletedDialogs, id)
 				}
 			}
 			s.Mu.Unlock()
+		}
+
+		if len(deletedDialogs) > 0 {
+			slog.Info("CheckLastUsedTimeInAudioDialog deleted dialogs", "ids", deletedDialogs)
 		}
 
 		time.Sleep(timeSleepCheckLastUsedTime)

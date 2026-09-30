@@ -3,6 +3,7 @@ package grpchandlers
 import (
 	"AudioDialog/internal/storage"
 	"context"
+	"log/slog"
 
 	pb "AudioDialog/proto"
 )
@@ -21,6 +22,8 @@ func NewGRPCHandler(storage storage.MakeDialog) *GRPCMakeDialogService {
 func (s *GRPCMakeDialogService) CreateAudioDialog(ctx context.Context, req *pb.CreateAudioDialogRequest) (*pb.CreateAudioDialogResponse, error) {
 	dialogID, senderID, receiverID := s.storage.CreateDialog()
 
+	slog.Info("CreateAudioDialog", "dialogID", dialogID, "user1", senderID, "user2", receiverID)
+
 	res := &pb.CreateAudioDialogResponse{
 		DialogId:   dialogID,
 		SenderId:   senderID,
@@ -31,5 +34,8 @@ func (s *GRPCMakeDialogService) CreateAudioDialog(ctx context.Context, req *pb.C
 
 func (s *GRPCMakeDialogService) DeleteAudioDialog(ctx context.Context, req *pb.DeleteAudioDialogRequest) (*pb.DeleteAudioDialogResponse, error) {
 	s.storage.DeleteDialog(req.DialogId)
+
+	slog.Info("DeleteAudioDialog", "dialogID", req.DialogId)
+
 	return &pb.DeleteAudioDialogResponse{}, nil
 }
