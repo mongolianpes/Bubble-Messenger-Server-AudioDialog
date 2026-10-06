@@ -1,20 +1,20 @@
 FROM golang:1.27.0-alpine AS builder
 
-WORKDIR /audioaDialog
+WORKDIR /audioDialog
 
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
 
-RUN GOOS=linux GOARCH=amd64 go build -o audioaDialog ./cmd/audioaDialog
+RUN GOOS=linux GOARCH=amd64 go build -o audioDialog ./cmd/audioDialog
 
 FROM alpine:latest
 
-WORKDIR /files
+WORKDIR /audioDialog
 
-COPY --from=builder /files/audioaDialog .
+COPY --from=builder /audioDialog/audioDialog .
 
 EXPOSE 8086
 
-CMD ["./audioaDialog"]
+CMD ["./audioDialog"]

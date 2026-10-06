@@ -1,4 +1,4 @@
-package audiodialog
+package main
 
 import (
 	"AudioDialog/internal/service"
@@ -27,4 +27,6 @@ func main() {
 			slog.Error("Error serve gRPC service", "error", err)
 		}
 	}()
+
+	select {}
 }
