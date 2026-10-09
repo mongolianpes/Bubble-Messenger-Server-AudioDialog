@@ -41,8 +41,8 @@ type CleanupDialogs interface {
 }
 
 type MessageAudioDialog struct {
-	Time  int64
-	Audio []byte
+	Time  int64  `json:"time"`
+	Audio []byte `json:"audio"`
 }
 
 func NewStorage() *Storage {
